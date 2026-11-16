@@ -19,9 +19,9 @@ GitHub Actions 에서 직접 빌드해 내 Cachix 캐시에 올리는 저장소�
 
 ## 캐시 연결 (Cachix)
 
-1. https://app.cachix.org 에서 공개 캐시를 만들고, 쓰기 권한 토큰을 발급
+1. 캐시: https://app.cachix.org/cache/silica-kernel (공개). 쓰기 권한 토큰을 발급
 2. 이 저장소 Settings → Secrets and variables → Actions
-   - Variables: `CACHIX_CACHE` = 캐시 이름
+   - Variables: `CACHIX_CACHE` = `silica-kernel`
    - Secrets: `CACHIX_AUTH_TOKEN` = 토큰
 3. 둘 다 있으면 다음 실행부터 빌드 결과가 캐시에 올라간다 (없으면 빌드만 한다)
 
@@ -38,8 +38,8 @@ inputs = {
 
 ```nix
 nix.settings = {
-  substituters = [ "https://<캐시 이름>.cachix.org" ];
-  trusted-public-keys = [ "<캐시 이름>.cachix.org-1:<공개키>" ];
+  substituters = [ "https://silica-kernel.cachix.org" ];
+  trusted-public-keys = [ "silica-kernel.cachix.org-1:Cs5YEmxBcazT+pcFz2kB7k3QrsqksebJOtmYKoZPM30=" ];
 };
 boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
 ```
