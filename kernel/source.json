@@ -1,0 +1,12 @@
+{
+  "version": "7.3.4",
+  "kernelOrg": {
+    "url": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.4.tar.xz",
+    "hash": "sha256-sRtt+Clejpkf8EC3GqpJlKi1XKojtrCSkH8ZW1hA/R8="
+  },
+  "cachyos": {
+    "tag": "cachyos-7.3.4-1",
+    "url": "https://github.com/CachyOS/linux/releases/download/cachyos-7.3.4-1/cachyos-7.3.4-1.tar.gz",
+    "hash": "sha256-aVxkHt1d+YSPkxwGv5ejBzTl8okQNnk31f6iNc/TlTU="
+  }
+}

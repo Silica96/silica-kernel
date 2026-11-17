@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       update:
-        description: "빌드 전에 nix-cachyos-kernel 을 최신 release 로 갱신"
+        description: "빌드 전에 nix-cachyos-kernel 을 최신 release 로 갱신하고 커널 소스/패치를 맞춤"
         type: boolean
         default: false
   push:
     branches: [main]
-    paths: [flake.nix, flake.lock, .github/workflows/build.yml]
+    paths: [flake.nix, flake.lock, "kernel/**", "scripts/**", .github/workflows/build.yml]
   schedule:
     - cron: "0 18 * * *" # 매일 03:00 KST: 새 커널이 나왔는지 확인
 
@@ -66,17 +66,21 @@ jobs:
           name: ${{ env.CACHIX_CACHE }}
           authToken: ${{ env.CACHIX_AUTH_TOKEN }}
 
-      - name: 상위 flake 갱신
+      - name: 상위 flake 갱신, 커널 소스/패치 맞춤
         id: update
         if: github.event_name == 'schedule' || inputs.update
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           nix flake update nix-cachyos-kernel
-          if git diff --quiet flake.lock; then
+          # CachyOS 릴리스가 바뀌었으면 kernel.org 소스를 받아 서명 검증 후 kernel/cachyos.patch 를 다시 만든다
+          ./scripts/update-source.sh
+          if [ -z "$(git status --porcelain flake.lock kernel)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "- 상위 flake 변경 없음" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git diff flake.lock
+            git diff --stat flake.lock kernel
           fi
 
       # flake.lock 이 그대로여도 캐시가 비었거나 정리됐을 수 있으므로, 결과물 존재 여부로 판단한다
@@ -114,10 +118,12 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           exit "$status"
 
-      - name: 갱신된 flake.lock 커밋
+      # 빌드가 성공했을 때만 커밋한다 → nixos-config 가 받는 버전은 항상 캐시에 있다
+      - name: 갱신된 flake.lock, 커널 소스/패치 커밋
         if: steps.update.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "flake.lock: nix-cachyos-kernel 갱신"
+          git add flake.lock kernel
+          git commit -m "커널 갱신: $(jq -r '.cachyos.tag' kernel/source.json)"
           git push
