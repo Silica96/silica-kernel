@@ -73,14 +73,29 @@ jobs:
           nix flake update nix-cachyos-kernel
           if git diff --quiet flake.lock; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "새 커널 없음: 빌드를 건너뜀" >> "$GITHUB_STEP_SUMMARY"
+            echo "- 상위 flake 변경 없음" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             git diff flake.lock
           fi
 
+      # flake.lock 이 그대로여도 캐시가 비었거나 정리됐을 수 있으므로, 결과물 존재 여부로 판단한다
+      - name: 캐시에 이미 있는지 확인
+        id: cache
+        run: |
+          # shellcheck disable=SC2016 # 작은따옴표 안은 셸이 아닌 Nix 식
+          paths=$(nix eval --raw --apply 'p: builtins.concatStringsSep " " ((map (o: p.kernel.${o}.outPath) p.kernel.outputs) ++ [ p.nvidia-open.outPath ])' .#packages.x86_64-linux)
+          echo "$paths" | tr ' ' '\n'
+          # shellcheck disable=SC2086
+          if [ -n "$CACHIX_CACHE" ] && nix path-info --store "https://$CACHIX_CACHE.cachix.org" $paths > /dev/null 2>&1; then
+            echo "cached=true" >> "$GITHUB_OUTPUT"
+            echo "- 결과물이 이미 캐시에 있음: 빌드를 건너뜀" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "cached=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: 커널 + NVIDIA open 모듈 빌드
-        if: steps.update.outputs.changed != 'false'
+        if: steps.cache.outputs.cached != 'true'
         run: |
           # 5분마다 디스크 사용량 기록 (최대치를 보려고)
           ( while true; do date +%T; df -B1G --output=target,used,avail / /mnt 2>/dev/null | tail -n +2; sleep 300; done ) > disk.log &
