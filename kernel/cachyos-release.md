@@ -1,16 +1,11 @@
-## CachyOS Linux 7.3.4-1
+## CachyOS Linux 7.3.5-1
 
-Based on Linux 7.3.4
-Previous release: `cachyos-7.3.3-1`
+Based on Linux 7.3.5
+Previous release: `cachyos-7.3.4-1`
 
-### Changes since `cachyos-7.3.3-1`
+### Changes since `cachyos-7.3.4-1`
 
-- Rebased to upstream: `7.3.3` → `7.3.4`
-- Updated branch: **7.3/fixes**
-    - `+` apparmor: convert duplicated dfa transitions to match_char()
-    - `+` PCI: vmd: Flush DMA writes before handling MSI on Arrow Lake
-    - `+` PCI: vmd: Flush DMA writes before handling MSI on Meteor Lake
-    - `+` wifi: brcmfmac: map msgbuf RX packet IDs bidirectional
+- Rebased to upstream: `7.3.4` → `7.3.5`
 
 ### Applied branches
 
