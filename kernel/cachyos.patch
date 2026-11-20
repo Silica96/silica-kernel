@@ -41302,6 +41302,19 @@ index e56eae4..db33717 100644
  	tcp_mstamp_refresh(tcp_sk(sk));
  	event = icsk->icsk_pending;
  
+diff --git a/scripts/Makefile.autofdo b/scripts/Makefile.autofdo
+index 57a3aba..32c18df 100644
+--- a/scripts/Makefile.autofdo
++++ b/scripts/Makefile.autofdo
+@@ -13,7 +13,7 @@ endif
+ ifdef CLANG_AUTOFDO_PROFILE
+   CFLAGS_AUTOFDO_CLANG += -fprofile-sample-use=$(CLANG_AUTOFDO_PROFILE) -ffunction-sections
+   CFLAGS_AUTOFDO_CLANG += -fsplit-machine-functions
+-  RUSTFLAGS_AUTOFDO_CLANG += -Zprofile-sample-use=$(CLANG_AUTOFDO_PROFILE) -Zfunction-sections=y
++  RUSTFLAGS_AUTOFDO_CLANG += $(if $(call rustc-min-version,110000),-Cprofile-sample-use,-Zprofile-sample-use)=$(CLANG_AUTOFDO_PROFILE) -Zfunction-sections=y
+   RUSTFLAGS_AUTOFDO_CLANG += -Cllvm-args=-split-machine-functions
+ endif
+ 
 diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
 index 66e4b6a..e187908 100644
 --- a/scripts/package/PKGBUILD

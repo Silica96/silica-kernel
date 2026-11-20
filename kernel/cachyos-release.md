@@ -1,13 +1,17 @@
-## CachyOS Linux 7.3.5-1
+## CachyOS Linux 7.3.5-2
 
 Based on Linux 7.3.5
-Previous release: `cachyos-7.3.4-1`
+Previous release: `cachyos-7.3.5-1`
 
-### Changes since `cachyos-7.3.4-1`
+### Changes since `cachyos-7.3.5-1`
 
-- Rebased to upstream: `7.3.4` → `7.3.5`
+- Updated branch: **7.3/cachy**
+    - `+` kbuild: rust: support stabilized flag `-Cprofile-sample-use` for Rust >= 1.100
 
 ### Applied branches
+
+#### 7.3/cachy
+- `fbd9d3c8f13c` kbuild: rust: support stabilized flag `-Cprofile-sample-use` for Rust >= 1.100
 
 #### 7.3/zram
 - `e823a1bcdce3` zram: fix idle age_sec underflow in idle_store()
