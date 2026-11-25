@@ -1,12 +1,12 @@
 {
-  "version": "7.3.5",
+  "version": "7.3.6",
   "kernelOrg": {
-    "url": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.5.tar.xz",
-    "hash": "sha256-jyk/g9VPC3ub5Whj68Xk6nnXPlMLSuVcVyvpfvOfCZA="
+    "url": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.3.6.tar.xz",
+    "hash": "sha256-gYPUdadqD6/6ktbNUAr0IfWJ39AwCg8QYLuHXhHUVyM="
   },
   "cachyos": {
-    "tag": "cachyos-7.3.5-2",
-    "url": "https://github.com/CachyOS/linux/releases/download/cachyos-7.3.5-2/cachyos-7.3.5-2.tar.gz",
-    "hash": "sha256-uyKtmeEEL66IO6txNm+DOTZ7dMBFAE/pKtSSMzkJLgc="
+    "tag": "cachyos-7.3.6-1",
+    "url": "https://github.com/CachyOS/linux/releases/download/cachyos-7.3.6-1/cachyos-7.3.6-1.tar.gz",
+    "hash": "sha256-+1zoE7jFWhJ9wO1gNXL4JTxAGDnkU36A7q9lyyG4bz8="
   }
 }

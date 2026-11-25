@@ -1,8 +1,8 @@
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4e64219..d569733 100644
+index b92d84e..5c1c7e2 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2532,6 +2532,9 @@ Kernel parameters
+@@ -2525,6 +2525,9 @@ Kernel parameters
  			disable
  			  Do not enable intel_pstate as the default
  			  scaling driver for the supported processors
@@ -12,7 +12,7 @@ index 4e64219..d569733 100644
                          active
                            Use intel_pstate driver to bypass the scaling
                            governors layer of cpufreq and provides it own
-@@ -5102,6 +5105,16 @@ Kernel parameters
+@@ -5095,6 +5098,16 @@ Kernel parameters
  		nomsi		[MSI] If the PCI_MSI kernel config parameter is
  				enabled, this kernel boot option can be used to
  				disable the use of MSI interrupts system-wide.
@@ -29,7 +29,7 @@ index 4e64219..d569733 100644
  		noioapicquirk	[APIC] Disable all boot interrupt quirks.
  				Safety option to keep boot IRQs enabled. This
  				should never be necessary.
-@@ -7987,6 +8000,8 @@ Kernel parameters
+@@ -7983,6 +7996,8 @@ Kernel parameters
  			obtained from HW or FW using either an MSR or CPUID(0x15).
  			Warn if the difference is more than 500 ppm.
  			[x86] watchdog: Enforce the clocksource watchdog on TSC
@@ -52,10 +52,10 @@ index 782389b..0350851 100644
  F:	drivers/nvmem/apple-efuses.c
  F:	drivers/nvmem/apple-spmi-nvmem.c
 diff --git a/Makefile b/Makefile
-index 51e278c..ae4be86 100644
+index 28ae92d..a65752b 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -932,11 +932,20 @@ KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
+@@ -933,11 +933,20 @@ KBUILD_CFLAGS	+= -fno-delete-null-pointer-checks
  ifdef CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE
  KBUILD_CFLAGS += -O2
  KBUILD_RUSTFLAGS += -Copt-level=2
@@ -2736,7 +2736,7 @@ index 4b84b3c..8b845d5 100644
  	if (!device)
  		return -ENODEV;
 diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 163a3cc..80e2c7e 100644
+index e818984..c301d4b 100644
 --- a/drivers/acpi/scan.c
 +++ b/drivers/acpi/scan.c
 @@ -1760,6 +1760,7 @@ static bool acpi_device_enumeration_by_parent(struct acpi_device *device)
@@ -2917,10 +2917,10 @@ index 4189516..e700075 100644
  	if (dmi_id)
  		quirks = (unsigned long)dmi_id->driver_data;
 diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
-index 9b8c093..46389f8 100644
+index fdce365..4a3edab 100644
 --- a/drivers/ata/ahci.c
 +++ b/drivers/ata/ahci.c
-@@ -2659,7 +2659,7 @@ static irqreturn_t ahci_mv_irq_handler(int irq, void *dev_instance)
+@@ -2650,7 +2650,7 @@ static irqreturn_t ahci_mv_irq_handler(int irq, void *dev_instance)
  	return IRQ_RETVAL(rc);
  }
  
@@ -2929,7 +2929,7 @@ index 9b8c093..46389f8 100644
  		struct ahci_host_priv *hpriv)
  {
  	int i;
-@@ -2672,7 +2672,7 @@ static void ahci_remap_check(struct pci_dev *pdev, int bar,
+@@ -2663,7 +2663,7 @@ static void ahci_remap_check(struct pci_dev *pdev, int bar,
  	    pci_resource_len(pdev, bar) < SZ_512K ||
  	    bar != AHCI_PCI_BAR_STANDARD ||
  	    !(readl(hpriv->mmio + AHCI_VSCAP) & 1))
@@ -2938,7 +2938,7 @@ index 9b8c093..46389f8 100644
  
  	cap = readq(hpriv->mmio + AHCI_REMAP_CAP);
  	for (i = 0; i < AHCI_MAX_REMAP; i++) {
-@@ -2687,18 +2687,11 @@ static void ahci_remap_check(struct pci_dev *pdev, int bar,
+@@ -2678,18 +2678,11 @@ static void ahci_remap_check(struct pci_dev *pdev, int bar,
  	}
  
  	if (!hpriv->remapped_nvme)
@@ -2961,7 +2961,7 @@ index 9b8c093..46389f8 100644
  }
  
  static int ahci_get_irq_vector(struct ata_host *host, int port)
-@@ -2988,7 +2981,9 @@ static int ahci_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -2979,7 +2972,9 @@ static int ahci_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
  		return rc;
  
  	/* detect remapped nvme devices */
@@ -4241,7 +4241,7 @@ index 81a0f3f..db9fc7a 100644
  
  #endif /* _ZCOMP_H_ */
 diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index 4ba0f77..d47d1e4 100644
+index 30f11e3..d47d1e4 100644
 --- a/drivers/block/zram/zram_drv.c
 +++ b/drivers/block/zram/zram_drv.c
 @@ -32,6 +32,7 @@
@@ -4300,136 +4300,7 @@ index 4ba0f77..d47d1e4 100644
  	slot_unlock(zram, index);
  
  	return ret;
-@@ -1547,68 +1554,70 @@ static void zram_debugfs_destroy(void)
- 	debugfs_remove_recursive(zram_debugfs_root);
- }
- 
--static ssize_t read_block_state(struct file *file, char __user *buf,
--				size_t count, loff_t *ppos)
-+static void *zram_block_state_start(struct seq_file *seq, loff_t *pos)
- {
--	char *kbuf;
--	unsigned long index;
--	ssize_t written = 0;
--	struct zram *zram = file->private_data;
-+	struct zram *zram = seq->private;
- 	unsigned long nr_pages;
- 
--	kbuf = kvmalloc(count, GFP_KERNEL);
--	if (!kbuf)
--		return -ENOMEM;
--
--	guard(rwsem_read)(&zram->dev_lock);
--	if (!init_done(zram)) {
--		kvfree(kbuf);
--		return -EINVAL;
--	}
-+	down_read(&zram->dev_lock);
-+	if (!init_done(zram))
-+		return ERR_PTR(-EINVAL);
- 
- 	nr_pages = zram->disksize >> PAGE_SHIFT;
-+	if (*pos >= nr_pages)
-+		return NULL;
- 
--	for (index = *ppos; index < nr_pages; index++) {
--		int copied;
-+	return pos;
-+}
- 
--		slot_lock(zram, index);
--		if (!slot_allocated(zram, index))
--			goto next;
-+static void *zram_block_state_next(struct seq_file *seq, void *v, loff_t *pos)
-+{
-+	struct zram *zram = seq->private;
-+	unsigned long nr_pages = zram->disksize >> PAGE_SHIFT;
- 
--		copied = snprintf(kbuf + written, count,
--			"%12lu %12u.%06d %c%c%c%c%c%c\n",
--			index, zram->table[index].attr.ac_time, 0,
--			test_slot_flag(zram, index, ZRAM_SAME) ? 's' : '.',
--			test_slot_flag(zram, index, ZRAM_WB) ? 'w' : '.',
--			test_slot_flag(zram, index, ZRAM_HUGE) ? 'h' : '.',
--			test_slot_flag(zram, index, ZRAM_IDLE) ? 'i' : '.',
--			get_slot_comp_priority(zram, index) ? 'r' : '.',
--			test_slot_flag(zram, index,
--				       ZRAM_INCOMPRESSIBLE) ? 'n' : '.');
--
--		if (count <= copied) {
--			slot_unlock(zram, index);
--			break;
--		}
--		written += copied;
--		count -= copied;
--next:
--		slot_unlock(zram, index);
--		*ppos += 1;
--	}
-+	++*pos;
-+	if (*pos >= nr_pages)
-+		return NULL;
-+
-+	return pos;
-+}
- 
--	if (copy_to_user(buf, kbuf, written))
--		written = -EFAULT;
--	kvfree(kbuf);
-+static void zram_block_state_stop(struct seq_file *seq, void *v)
-+{
-+	struct zram *zram = seq->private;
-+
-+	up_read(&zram->dev_lock);
-+}
-+
-+static int zram_block_state_show(struct seq_file *seq, void *v)
-+{
-+	struct zram *zram = seq->private;
-+	unsigned long index = *(loff_t *)v;
-+
-+	slot_lock(zram, index);
-+	if (slot_allocated(zram, index)) {
-+		seq_printf(seq, "%12lu %12u.%06d %c%c%c%c%c%c\n",
-+			   index, zram->table[index].attr.ac_time, 0,
-+			   test_slot_flag(zram, index, ZRAM_SAME) ? 's' : '.',
-+			   test_slot_flag(zram, index, ZRAM_WB) ? 'w' : '.',
-+			   test_slot_flag(zram, index, ZRAM_HUGE) ? 'h' : '.',
-+			   test_slot_flag(zram, index, ZRAM_IDLE) ? 'i' : '.',
-+			   get_slot_comp_priority(zram, index) ? 'r' : '.',
-+			   test_slot_flag(zram, index,
-+					  ZRAM_INCOMPRESSIBLE) ? 'n' : '.');
-+	}
-+	slot_unlock(zram, index);
- 
--	return written;
-+	return 0;
- }
- 
--static const struct file_operations proc_zram_block_state_op = {
--	.open = simple_open,
--	.read = read_block_state,
--	.llseek = default_llseek,
-+static const struct seq_operations zram_block_state_sops = {
-+	.start = zram_block_state_start,
-+	.next = zram_block_state_next,
-+	.stop = zram_block_state_stop,
-+	.show = zram_block_state_show,
- };
-+DEFINE_SEQ_ATTRIBUTE(zram_block_state);
- 
- static void zram_debugfs_register(struct zram *zram)
- {
-@@ -1618,7 +1627,7 @@ static void zram_debugfs_register(struct zram *zram)
- 	zram->debugfs_dir = debugfs_create_dir(zram->disk->disk_name,
- 						zram_debugfs_root);
- 	debugfs_create_file("block_state", 0400, zram->debugfs_dir,
--				zram, &proc_zram_block_state_op);
-+				zram, &zram_block_state_fops);
- }
- 
- static void zram_debugfs_unregister(struct zram *zram)
-@@ -1722,11 +1731,6 @@ static int comp_params_store(struct zram *zram, u32 prio, s32 level,
+@@ -1724,11 +1731,6 @@ static int comp_params_store(struct zram *zram, u32 prio, s32 level,
  			       dict_path, sz);
  			return sz;
  		}
@@ -4441,7 +4312,7 @@ index 4ba0f77..d47d1e4 100644
  	}
  
  	zram->params[prio].dict_sz = sz;
-@@ -2091,15 +2095,19 @@ static int read_same_filled_page(struct zram *zram, struct page *page,
+@@ -2093,15 +2095,19 @@ static int read_same_filled_page(struct zram *zram, struct page *page,
  static int read_incompressible_page(struct zram *zram, struct page *page,
  				    unsigned long index)
  {
@@ -4463,7 +4334,7 @@ index 4ba0f77..d47d1e4 100644
  
  	return 0;
  }
-@@ -2107,24 +2115,28 @@ static int read_incompressible_page(struct zram *zram, struct page *page,
+@@ -2109,24 +2115,28 @@ static int read_incompressible_page(struct zram *zram, struct page *page,
  static int read_compressed_page(struct zram *zram, struct page *page,
  				unsigned long index)
  {
@@ -4500,7 +4371,7 @@ index 4ba0f77..d47d1e4 100644
  
  	return ret;
  }
-@@ -2133,25 +2145,23 @@ static int read_compressed_page(struct zram *zram, struct page *page,
+@@ -2135,25 +2145,23 @@ static int read_compressed_page(struct zram *zram, struct page *page,
  static int read_from_zspool_raw(struct zram *zram, struct page *page,
  				unsigned long index)
  {
@@ -4535,7 +4406,7 @@ index 4ba0f77..d47d1e4 100644
  
  	memzero_page(page, size, PAGE_SIZE - size);
  
-@@ -2294,7 +2304,7 @@ static int zram_write_page(struct zram *zram, struct page *page,
+@@ -2296,7 +2304,7 @@ static int zram_write_page(struct zram *zram, struct page *page,
  	unsigned long handle;
  	unsigned int comp_len;
  	void *mem;
@@ -4544,7 +4415,7 @@ index 4ba0f77..d47d1e4 100644
  	unsigned long element;
  	bool same_filled;
  
-@@ -2304,20 +2314,20 @@ static int zram_write_page(struct zram *zram, struct page *page,
+@@ -2306,20 +2314,20 @@ static int zram_write_page(struct zram *zram, struct page *page,
  	if (same_filled)
  		return write_same_filled_page(zram, element, index);
  
@@ -4568,7 +4439,7 @@ index 4ba0f77..d47d1e4 100644
  		return write_incompressible_page(zram, page, index);
  	}
  
-@@ -2325,18 +2335,18 @@ static int zram_write_page(struct zram *zram, struct page *page,
+@@ -2327,18 +2335,18 @@ static int zram_write_page(struct zram *zram, struct page *page,
  			   GFP_NOIO | __GFP_NOWARN |
  			   __GFP_HIGHMEM | __GFP_MOVABLE, page_to_nid(page));
  	if (IS_ERR_VALUE(handle)) {
@@ -4590,7 +4461,7 @@ index 4ba0f77..d47d1e4 100644
  
  	slot_lock(zram, index);
  	slot_free(zram, index);
-@@ -2445,7 +2455,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2447,7 +2455,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  			   struct page *page, u64 *num_recomp_pages,
  			   u32 threshold, u32 prio)
  {
@@ -4599,7 +4470,7 @@ index 4ba0f77..d47d1e4 100644
  	unsigned long handle_old;
  	unsigned long handle_new;
  	unsigned int comp_len_old;
-@@ -2477,7 +2487,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2479,7 +2487,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  	 */
  	clear_slot_flag(zram, index, ZRAM_IDLE);
  
@@ -4608,7 +4479,7 @@ index 4ba0f77..d47d1e4 100644
  	src = kmap_local_page(page);
  	ret = zcomp_compress(zram->comps[prio], zstrm, src, &comp_len_new);
  	kunmap_local(src);
-@@ -2492,7 +2502,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2494,7 +2502,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  		*num_recomp_pages -= 1;
  
  	if (ret) {
@@ -4617,7 +4488,7 @@ index 4ba0f77..d47d1e4 100644
  		return ret;
  	}
  
-@@ -2501,7 +2511,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2503,7 +2511,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  
  	if (class_index_new >= class_index_old ||
  	    (threshold && comp_len_new >= threshold)) {
@@ -4626,7 +4497,7 @@ index 4ba0f77..d47d1e4 100644
  
  		/*
  		 * Secondary algorithms failed to re-compress the page
-@@ -2516,7 +2526,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2518,7 +2526,7 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  	}
  
  	/*
@@ -4635,7 +4506,7 @@ index 4ba0f77..d47d1e4 100644
  	 * avoid direct reclaim.  Allocation error is not fatal since
  	 * we still have the old object in the mem_pool.
  	 *
-@@ -2530,12 +2540,12 @@ static int recompress_slot(struct zram *zram, unsigned long index,
+@@ -2532,12 +2540,12 @@ static int recompress_slot(struct zram *zram, unsigned long index,
  			       __GFP_HIGHMEM | __GFP_MOVABLE,
  			       page_to_nid(page));
  	if (IS_ERR_VALUE(handle_new)) {
@@ -4650,7 +4521,7 @@ index 4ba0f77..d47d1e4 100644
  
  	slot_free(zram, index);
  	set_slot_handle(zram, index, handle_new);
-@@ -2876,6 +2886,12 @@ static void zram_reset_device(struct zram *zram)
+@@ -2878,6 +2886,12 @@ static void zram_reset_device(struct zram *zram)
  	zram_destroy_comps(zram);
  	memset(&zram->stats, 0, sizeof(zram->stats));
  	reset_bdev(zram);
@@ -4663,7 +4534,7 @@ index 4ba0f77..d47d1e4 100644
  }
  
  static ssize_t disksize_store(struct device *dev, struct device_attribute *attr,
-@@ -2912,7 +2928,8 @@ static ssize_t disksize_store(struct device *dev, struct device_attribute *attr,
+@@ -2914,7 +2928,8 @@ static ssize_t disksize_store(struct device *dev, struct device_attribute *attr,
  			continue;
  
  		comp = zcomp_create(zram->comp_algs[prio],
@@ -4673,7 +4544,7 @@ index 4ba0f77..d47d1e4 100644
  		if (IS_ERR(comp)) {
  			pr_err("Cannot initialise %s compressing backend\n",
  			       zram->comp_algs[prio]);
-@@ -3292,6 +3309,7 @@ static int __init zram_init(void)
+@@ -3294,6 +3309,7 @@ static int __init zram_init(void)
  	if (zram_major <= 0) {
  		pr_err("Unable to get major number\n");
  		class_unregister(&zram_control_class);
@@ -4681,11 +4552,11 @@ index 4ba0f77..d47d1e4 100644
  		cpuhp_remove_multi_state(CPUHP_ZCOMP_PREPARE);
  		return -EBUSY;
  	}
-diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index ece1fd4..109013b 100644
---- a/drivers/bluetooth/btusb.c
-+++ b/drivers/bluetooth/btusb.c
-@@ -587,6 +587,8 @@ static const struct usb_device_id quirks_table[] = {
+diff --git a/drivers/bluetooth/btusb_main.c b/drivers/bluetooth/btusb_main.c
+index 67b7271..be9889f 100644
+--- a/drivers/bluetooth/btusb_main.c
++++ b/drivers/bluetooth/btusb_main.c
+@@ -586,6 +586,8 @@ static const struct usb_device_id quirks_table[] = {
  						     BTUSB_WIDEBAND_SPEECH },
  	{ USB_DEVICE(0x13d3, 0x3612), .driver_info = BTUSB_REALTEK |
  						     BTUSB_WIDEBAND_SPEECH },
@@ -4694,7 +4565,7 @@ index ece1fd4..109013b 100644
  	{ USB_DEVICE(0x0489, 0xe122), .driver_info = BTUSB_REALTEK |
  						     BTUSB_WIDEBAND_SPEECH },
  
-@@ -717,6 +719,8 @@ static const struct usb_device_id quirks_table[] = {
+@@ -712,6 +714,8 @@ static const struct usb_device_id quirks_table[] = {
  	{ USB_DEVICE(0x13d3, 0x3596), .driver_info = BTUSB_MEDIATEK |
  						     BTUSB_WIDEBAND_SPEECH },
  	/* MediaTek MT7922 Bluetooth devices */
@@ -4959,10 +4830,10 @@ index 6927802..428cf07 100644
  	    (pdev->class >> 8) == PCI_CLASS_DISPLAY_OTHER) {
  		if (drm_firmware_drivers_only() && amdgpu_modeset == -1)
 diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index 1727d25..986481d 100644
+index 617bc19..55eaf3e 100644
 --- a/drivers/gpu/drm/amd/display/Kconfig
 +++ b/drivers/gpu/drm/amd/display/Kconfig
-@@ -68,4 +68,10 @@ config DRM_AMD_DC_KUNIT_TEST
+@@ -77,4 +77,10 @@ config DRM_AMD_DC_KUNIT_TEST
  	  For more information on KUnit and unit tests in general, please
  	  refer to the KUnit documentation in Documentation/dev-tools/kunit/.
  
@@ -4974,7 +4845,7 @@ index 1727d25..986481d 100644
 +
  endmenu
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f3551bd..3a46a59 100644
+index 0c92f9c..53dccc9 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 @@ -617,6 +617,8 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
@@ -4998,7 +4869,7 @@ index f3551bd..3a46a59 100644
  		dm_gpureset_commit_state(dm->cached_dc_state, dm);
  
  		dm_gpureset_toggle_interrupts(adev, dm->cached_dc_state, true);
-@@ -2008,11 +2015,20 @@ static int dm_resume(struct amdgpu_ip_block *ip_block)
+@@ -2012,11 +2019,20 @@ static int dm_resume(struct amdgpu_ip_block *ip_block)
  		if (!dc_link_detect_connection_type(aconnector->dc_link, &new_connection_type))
  			drm_err(adev_to_drm(adev), "KMS: Failed to detect connector\n");
  
@@ -5020,7 +4891,7 @@ index f3551bd..3a46a59 100644
  			ret = dc_link_detect(aconnector->dc_link, DETECT_REASON_RESUMEFROMS3S4);
  			if (ret) {
  				/* w/a delay for certain panels */
-@@ -2265,7 +2281,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
+@@ -2269,7 +2285,7 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
  	if (r)
  		return r;
  
@@ -5029,7 +4900,7 @@ index f3551bd..3a46a59 100644
  	if (amdgpu_dm_create_color_properties(adev))
  		return -ENOMEM;
  #endif
-@@ -4049,9 +4065,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_commit *state,
+@@ -4053,9 +4069,12 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_commit *state,
  		}
  
  		if (acrtc_state->stream) {
@@ -5043,7 +4914,7 @@ index f3551bd..3a46a59 100644
  		}
  	}
  
-@@ -4621,6 +4640,25 @@ static void amdgpu_dm_commit_streams(struct drm_atomic_commit *state,
+@@ -4625,6 +4644,25 @@ static void amdgpu_dm_commit_streams(struct drm_atomic_commit *state,
  	dc_exit_ips_for_hw_access(dm->dc);
  	WARN_ON(!dc_commit_streams(dm->dc, &params));
  
@@ -5069,7 +4940,7 @@ index f3551bd..3a46a59 100644
  	bool frl_stream_found = false;
  
  	for (i = 0; i < params.stream_count; i++) {
-@@ -5005,6 +5043,14 @@ STATIC_IFN_KUNIT void dm_enable_per_frame_crtc_master_sync(struct dc_state *cont
+@@ -5009,6 +5047,14 @@ STATIC_IFN_KUNIT void dm_enable_per_frame_crtc_master_sync(struct dc_state *cont
  		 */
  	}
  
@@ -5124,7 +4995,7 @@ index d55dc06..a4d727e 100644
   *
   * AMD driver supports pre-defined mathematical functions for transferring
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
-index 45a69bf..e0be6c5 100644
+index bfcc8ad..8383177 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
 @@ -125,6 +125,13 @@ STATIC_IFN_KUNIT int dm_encoder_helper_atomic_check(struct drm_encoder *encoder,
@@ -5281,7 +5152,7 @@ index 45a69bf..e0be6c5 100644
  	}
  
  	if (amdgpu_dm_connector->dc_link)
-@@ -3967,7 +4056,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -3985,7 +4074,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	if (do_mccs) {
  		dm_helpers_read_mccs_caps(adev->dm.dc->ctx, amdgpu_dm_connector->dc_link, sink);
  
@@ -5291,7 +5162,7 @@ index 45a69bf..e0be6c5 100644
  			freesync_capable = false;
  
  		if (sink->mccs_caps.freesync_supported && freesync_capable)
-@@ -3975,8 +4065,15 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+@@ -3993,8 +4083,15 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
  	}
  
  update:
@@ -5308,7 +5179,7 @@ index 45a69bf..e0be6c5 100644
  
  	if (connector->state && amdgpu_dm_connector->dc_link && !freesync_capable &&
  	    amdgpu_dm_connector->dc_link->replay_settings.config.replay_supported) {
-@@ -3987,4 +4084,7 @@ update:
+@@ -4005,4 +4102,7 @@ update:
  	if (connector->vrr_capable_property)
  		drm_connector_set_vrr_capable_property(connector,
  						       freesync_capable);
@@ -5546,10 +5417,10 @@ index 2599667..8657dd9 100644
  EXPORT_IF_KUNIT(retrieve_dmi_info);
  
 diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index fc9080f..4bf16f3 100644
+index 7fc0fac..125e154 100644
 --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -685,6 +685,14 @@ bool resource_are_streams_timing_synchronizable(
+@@ -689,6 +689,14 @@ bool resource_are_streams_timing_synchronizable(
  	struct dc_stream_state *stream1,
  	struct dc_stream_state *stream2)
  {
@@ -5618,10 +5489,10 @@ index 657173d..49731cd 100644
  }
 -
 diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-index 097e4ac..0c9784d 100644
+index a2322e8..711257e 100644
 --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
 +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-@@ -2675,15 +2675,21 @@ void dcn10_enable_per_frame_crtc_position_reset(
+@@ -2674,15 +2674,21 @@ void dcn10_enable_per_frame_crtc_position_reset(
  	struct pipe_ctx *grouped_pipes[])
  {
  	int i;
@@ -5852,10 +5723,10 @@ index 68d59e1..6ca4b36 100644
  		*val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
  	else if (property == config->ctm_property)
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 8b4baed..8dd69ec 100644
+index 0e39431..f10b045 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -2393,6 +2393,16 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+@@ -2395,6 +2395,16 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
   *
   *	Absence of the property should indicate absence of support.
   *
@@ -5872,7 +5743,7 @@ index 8b4baed..8dd69ec 100644
   * "VRR_ENABLED":
   *	Default &drm_crtc boolean property that notifies the driver that the
   *	content on the CRTC is suitable for variable refresh rate presentation.
-@@ -2411,6 +2421,17 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
+@@ -2413,6 +2423,17 @@ EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
   *
   *	The driver may place further restrictions within these minimum
   *	and maximum bounds.
@@ -5890,7 +5761,7 @@ index 8b4baed..8dd69ec 100644
   */
  
  /**
-@@ -2444,6 +2465,37 @@ int drm_connector_attach_vrr_capable_property(
+@@ -2446,6 +2467,37 @@ int drm_connector_attach_vrr_capable_property(
  }
  EXPORT_SYMBOL(drm_connector_attach_vrr_capable_property);
  
@@ -5928,7 +5799,7 @@ index 8b4baed..8dd69ec 100644
  /**
   * drm_connector_attach_scaling_mode_property - attach atomic scaling mode property
   * @connector: connector to attach scaling mode property on.
-@@ -3154,6 +3206,27 @@ void drm_connector_set_vrr_capable_property(
+@@ -3156,6 +3208,27 @@ void drm_connector_set_vrr_capable_property(
  }
  EXPORT_SYMBOL(drm_connector_set_vrr_capable_property);
  
@@ -6492,77 +6363,6 @@ index e91e5cd..a0361f8 100644
  	if (intel_vgpu_active(i915))
  		return false;
  
-diff --git a/drivers/gpu/drm/tiny/appletbdrm.c b/drivers/gpu/drm/tiny/appletbdrm.c
-index ef71b99..9a5288a 100644
---- a/drivers/gpu/drm/tiny/appletbdrm.c
-+++ b/drivers/gpu/drm/tiny/appletbdrm.c
-@@ -30,6 +30,7 @@
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_modeset_helper.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-@@ -821,6 +822,48 @@ static void appletbdrm_shutdown(struct usb_interface *intf)
- 	drm_atomic_helper_shutdown(&adev->drm);
- }
- 
-+static int appletbdrm_suspend(struct usb_interface *intf, pm_message_t message)
-+{
-+	struct appletbdrm_device *adev = usb_get_intfdata(intf);
-+
-+	return drm_mode_config_helper_suspend(&adev->drm);
-+}
-+
-+static int appletbdrm_resume(struct usb_interface *intf)
-+{
-+	struct appletbdrm_device *adev = usb_get_intfdata(intf);
-+
-+	return drm_mode_config_helper_resume(&adev->drm);
-+}
-+
-+static int appletbdrm_reset_resume(struct usb_interface *intf)
-+{
-+	struct appletbdrm_device *adev = usb_get_intfdata(intf);
-+	struct drm_device *drm = &adev->drm;
-+	int ret, resume_ret;
-+
-+	/*
-+	 * A reset puts the device back into its initial state, where it
-+	 * expects the same handshake as during probe. Resume the DRM side
-+	 * even if the handshake fails, so that the state saved on suspend
-+	 * is released.
-+	 */
-+	ret = appletbdrm_get_information(adev);
-+	if (ret) {
-+		drm_err(drm, "Failed to get display information\n");
-+		goto resume;
-+	}
-+
-+	ret = appletbdrm_signal_readiness(adev);
-+	if (ret)
-+		drm_err(drm, "Failed to signal readiness\n");
-+
-+resume:
-+	resume_ret = drm_mode_config_helper_resume(drm);
-+
-+	return ret ? ret : resume_ret;
-+}
-+
- static const struct usb_device_id appletbdrm_usb_id_table[] = {
- 	{ USB_DEVICE_INTERFACE_CLASS(0x05ac, 0x8302, USB_CLASS_AUDIO_VIDEO) },
- 	{}
-@@ -832,6 +875,9 @@ static struct usb_driver appletbdrm_usb_driver = {
- 	.probe		= appletbdrm_probe,
- 	.disconnect	= appletbdrm_disconnect,
- 	.shutdown	= appletbdrm_shutdown,
-+	.suspend	= appletbdrm_suspend,
-+	.resume		= appletbdrm_resume,
-+	.reset_resume	= appletbdrm_reset_resume,
- 	.id_table	= appletbdrm_usb_id_table,
- };
- module_usb_driver(appletbdrm_usb_driver);
 diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
 index 22cf52b..fb0b0de 100644
 --- a/drivers/gpu/vga/vga_switcheroo.c
@@ -8179,7 +7979,7 @@ index a71ddaa..3ebcde5 100644
  		bus = "VIRTUAL";
  		break;
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 3b19b74..daa8b18 100644
+index 042421c..30122c8 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
 @@ -96,6 +96,8 @@
@@ -8207,7 +8007,7 @@ index 3b19b74..daa8b18 100644
  #define USB_VENDOR_ID_ASETEK			0x2433
  #define USB_DEVICE_ID_ASETEK_INVICTA		0xf300
 diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 9646380..4269ca8 100644
+index 27d83b8..7ff9217 100644
 --- a/drivers/hid/hid-logitech-hidpp.c
 +++ b/drivers/hid/hid-logitech-hidpp.c
 @@ -214,6 +214,8 @@ struct hidpp_device {
@@ -8272,7 +8072,7 @@ index 9646380..4269ca8 100644
  	hid_device_io_stop(hdev);
  	ret = hid_connect(hdev, connect_mask);
 diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index d637c04..4ee2ce7 100644
+index e6d4d49..7914937 100644
 --- a/drivers/hid/hid-magicmouse.c
 +++ b/drivers/hid/hid-magicmouse.c
 @@ -60,8 +60,14 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
@@ -8799,7 +8599,7 @@ index d637c04..4ee2ce7 100644
  }
  
  static int magicmouse_event(struct hid_device *hdev, struct hid_field *field,
-@@ -567,7 +979,24 @@ static int magicmouse_event(struct hid_device *hdev, struct hid_field *field,
+@@ -571,7 +983,24 @@ static int magicmouse_event(struct hid_device *hdev, struct hid_field *field,
  	return 0;
  }
  
@@ -8825,7 +8625,7 @@ index d637c04..4ee2ce7 100644
  {
  	int error;
  	int mt_flags = 0;
-@@ -646,7 +1075,7 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
+@@ -650,7 +1079,7 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
  
  	__set_bit(EV_ABS, input->evbit);
  
@@ -8834,7 +8634,7 @@ index d637c04..4ee2ce7 100644
  	if (error)
  		return error;
  	input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0, 255 << 2,
-@@ -726,6 +1155,171 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
+@@ -730,6 +1159,171 @@ static int magicmouse_setup_input(struct input_dev *input, struct hid_device *hd
  	 */
  	__clear_bit(EV_REP, input->evbit);
  
@@ -9006,7 +8806,7 @@ index d637c04..4ee2ce7 100644
  	return 0;
  }
  
-@@ -784,14 +1378,27 @@ static int magicmouse_enable_multitouch(struct hid_device *hdev)
+@@ -788,14 +1382,27 @@ static int magicmouse_enable_multitouch(struct hid_device *hdev)
  	int feature_size;
  
  	switch (hdev->product) {
@@ -9035,7 +8835,7 @@ index d637c04..4ee2ce7 100644
  			feature_size = sizeof(feature_mt_trackpad2_usb);
  			feature = feature_mt_trackpad2_usb;
  		}
-@@ -897,12 +1504,62 @@ static int magicmouse_probe(struct hid_device *hdev,
+@@ -901,12 +1508,62 @@ static int magicmouse_probe(struct hid_device *hdev,
  	struct hid_report *report;
  	int ret;
  
@@ -9098,7 +8898,7 @@ index d637c04..4ee2ce7 100644
  	msc->scroll_accel = SCROLL_ACCEL_DEFAULT;
  	msc->hdev = hdev;
  	INIT_DEFERRABLE_WORK(&msc->work, magicmouse_enable_mt_work);
-@@ -961,6 +1618,15 @@ static int magicmouse_probe(struct hid_device *hdev,
+@@ -965,6 +1622,15 @@ static int magicmouse_probe(struct hid_device *hdev,
  		break;
  	case USB_DEVICE_ID_APPLE_MAGICTRACKPAD2:
  	case USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC:
@@ -9114,7 +8914,7 @@ index d637c04..4ee2ce7 100644
  		switch (id->vendor) {
  		case BT_VENDOR_ID_APPLE:
  			report = hid_register_report(hdev, HID_INPUT_REPORT,
-@@ -971,11 +1637,20 @@ static int magicmouse_probe(struct hid_device *hdev,
+@@ -975,11 +1641,20 @@ static int magicmouse_probe(struct hid_device *hdev,
  				TRACKPAD2_USB_REPORT_ID, 0);
  		}
  		break;
@@ -9140,7 +8940,7 @@ index d637c04..4ee2ce7 100644
  	}
  
  	if (!report) {
-@@ -985,22 +1660,14 @@ static int magicmouse_probe(struct hid_device *hdev,
+@@ -989,22 +1664,14 @@ static int magicmouse_probe(struct hid_device *hdev,
  	}
  	report->size = 6;
  
@@ -9171,7 +8971,7 @@ index d637c04..4ee2ce7 100644
  	}
  
  	/*
-@@ -1046,7 +1713,7 @@ static int magicmouse_reset_resume(struct hid_device *hdev)
+@@ -1050,7 +1717,7 @@ static int magicmouse_reset_resume(struct hid_device *hdev)
  	 * enable report.  Only the HID_TYPE_USBMOUSE interface accepts it, and
  	 * it must be deferred. Sending it inline here is too early.
  	 */
@@ -9180,7 +8980,7 @@ index d637c04..4ee2ce7 100644
  		schedule_delayed_work(&msc->work, msecs_to_jiffies(500));
  
  	return 0;
-@@ -1102,6 +1769,28 @@ static const struct hid_device_id magic_mice[] = {
+@@ -1106,6 +1773,28 @@ static const struct hid_device_id magic_mice[] = {
  		USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC), .driver_data = 0 },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
  		USB_DEVICE_ID_APPLE_MAGICTRACKPAD2_USBC), .driver_data = 0 },
@@ -9209,6 +9009,31 @@ index d637c04..4ee2ce7 100644
  	{ }
  };
  MODULE_DEVICE_TABLE(hid, magic_mice);
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index f9dc937..53c8ac2 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -82,6 +82,8 @@ struct ps_led_info {
+ #define DS_INPUT_REPORT_USB_SIZE		64
+ #define DS_INPUT_REPORT_BT			0x31
+ #define DS_INPUT_REPORT_BT_SIZE			78
++#define DS_INPUT_REPORT_BT_TYPE			GENMASK(3, 0)
++#define DS_INPUT_REPORT_BT_TYPE_AUDIO		0x2
+ #define DS_OUTPUT_REPORT_USB			0x02
+ #define DS_OUTPUT_REPORT_USB_SIZE		63
+ #define DS_OUTPUT_REPORT_BT			0x31
+@@ -1463,6 +1465,11 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+ 			return -EILSEQ;
+ 		}
+ 
++		/* Report 0x31 also carries microphone audio, which is not input. */
++		if (FIELD_GET(DS_INPUT_REPORT_BT_TYPE, data[1]) ==
++		    DS_INPUT_REPORT_BT_TYPE_AUDIO)
++			return 0;
++
+ 		ds_report = (struct dualsense_input_report *)&data[2];
+ 	} else {
+ 		hid_err(hdev, "Unhandled reportID=%d\n", report->id);
 diff --git b/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
 new file mode 100644
 index 0000000..59076c6
@@ -19051,7 +18876,7 @@ index 0000000..62b9b9c
 +MODULE_AUTHOR("Daniel Drake <drake@endlessm.com>");
 +MODULE_LICENSE("GPL v2");
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index d4fcc33..1dff2c4 100644
+index 50fcb66..212c408 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
 @@ -3782,6 +3782,109 @@ static void quirk_no_bus_reset(struct pci_dev *dev)
@@ -20934,10 +20759,10 @@ index ef735f8..6f84600 100644
  MODULE_AUTHOR("Michael Reeves <michael.reeves077@gmail.com>");
 +MODULE_ALIAS("platform:macsmc-power");
 diff --git a/drivers/rtc/Kconfig b/drivers/rtc/Kconfig
-index 05b9233..8cc2789 100644
+index dcf9bda..49d92b3 100644
 --- a/drivers/rtc/Kconfig
 +++ b/drivers/rtc/Kconfig
-@@ -2096,7 +2096,7 @@ config RTC_DRV_WILCO_EC
+@@ -2117,7 +2117,7 @@ config RTC_DRV_WILCO_EC
  
  config RTC_DRV_MACSMC
  	tristate "Apple Mac System Management Controller RTC"
@@ -36313,10 +36138,10 @@ index 276768f..2e1df74 100644
  		dev_dbg(&dev->dev,
  			"wrong descriptor type %02x for string %d (\"%s\")\n",
 diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 0404489..2b12a35 100644
+index ba158d6..1363c35 100644
 --- a/drivers/usb/host/pci-quirks.c
 +++ b/drivers/usb/host/pci-quirks.c
-@@ -1193,10 +1193,11 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+@@ -1194,10 +1194,11 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
  			 && pdev->device == 0x0014)) {
  		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
  		writel(val, base + ext_cap_offset);
@@ -36332,7 +36157,7 @@ index 0404489..2b12a35 100644
  		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
  
  		/* Wait for 1 second with 10 microsecond polling interval */
-@@ -1208,7 +1209,9 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+@@ -1209,7 +1210,9 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
  			dev_warn(&pdev->dev,
  				 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
  				 val);
@@ -36766,38 +36591,6 @@ index 8d17b74..e5522bb 100644
  
  #define HID_REPORT_ID(rep) \
  	.report_type = (rep)
-diff --git a/include/linux/kernel_stat.h b/include/linux/kernel_stat.h
-index 9ca6c22..6e25204 100644
---- a/include/linux/kernel_stat.h
-+++ b/include/linux/kernel_stat.h
-@@ -40,6 +40,9 @@ struct kernel_cpustat {
- 	seqcount_t	idle_sleeptime_seq;
- 	u64		idle_entrytime;
- 	u64		idle_stealtime[2];
-+	u64		idle_dyntick_entry;
-+	u64		idle_tick_period;
-+	u64		idle_tick_overlap;
- #endif
- 	u64		cpustat[NR_STATS];
- };
-@@ -111,7 +114,7 @@ static inline unsigned long kstat_cpu_irqs_sum(unsigned int cpu)
- #ifdef CONFIG_HAVE_VIRT_CPU_ACCOUNTING_IDLE
- 
- static inline void kcpustat_dyntick_start(u64 now) { }
--static inline void kcpustat_dyntick_stop(u64 now) { }
-+static inline void kcpustat_dyntick_stop(u64 now, u64 tick_start) { }
- static inline void kcpustat_irq_enter(u64 now) { }
- static inline void kcpustat_irq_exit(u64 now) { }
- static inline bool kcpustat_idle_dyntick(void) { return false; }
-@@ -132,7 +135,7 @@ static inline u64 kcpustat_field_iowait(int cpu)
- #else /* !CONFIG_HAVE_VIRT_CPU_ACCOUNTING_IDLE */
- 
- extern void kcpustat_dyntick_start(u64 now);
--extern void kcpustat_dyntick_stop(u64 now);
-+extern void kcpustat_dyntick_stop(u64 now, u64 tick_start);
- extern void kcpustat_irq_enter(u64 now);
- extern void kcpustat_irq_exit(u64 now);
- extern u64 kcpustat_field_idle(int cpu);
 diff --git a/include/linux/list.h b/include/linux/list.h
 index 77fb62f..82a6234 100644
 --- a/include/linux/list.h
@@ -37610,7 +37403,7 @@ index f294dad..4a5ae8b 100644
  	help
  	  This option turns the kernel into a real-time kernel by replacing
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 48d7ca0..ec222e9 100644
+index ddd3dbc..a3fc98f 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -127,6 +127,12 @@
@@ -37638,7 +37431,7 @@ index 48d7ca0..ec222e9 100644
  	/*
  	 * Force any signals received before this point to be delivered
  	 * before the fork happens.  Collect up signals sent to multiple
-@@ -3213,6 +3224,10 @@ static int check_unshare_flags(unsigned long unshare_flags)
+@@ -3219,6 +3230,10 @@ static int check_unshare_flags(unsigned long unshare_flags)
  		if (!current_is_single_threaded())
  			return -EINVAL;
  	}
@@ -37649,7 +37442,7 @@ index 48d7ca0..ec222e9 100644
  
  	return 0;
  }
-@@ -3446,6 +3461,15 @@ static const struct ctl_table fork_sysctl_table[] = {
+@@ -3452,6 +3467,15 @@ static const struct ctl_table fork_sysctl_table[] = {
  		.mode		= 0644,
  		.proc_handler	= sysctl_max_threads,
  	},
@@ -37666,7 +37459,7 @@ index 48d7ca0..ec222e9 100644
  
  static int __init init_fork_sysctl(void)
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 1754d9f..7563d55 100644
+index 4a05176..4d080af 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -673,7 +673,7 @@ void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
@@ -37687,7 +37480,7 @@ index 1754d9f..7563d55 100644
  		return;
  	rq->clock += delta;
  
-@@ -5097,7 +5097,7 @@ static inline void prepare_task(struct task_struct *next)
+@@ -5101,7 +5101,7 @@ static inline void prepare_task(struct task_struct *next)
  	WRITE_ONCE(next->on_cpu, 1);
  }
  
@@ -37696,7 +37489,7 @@ index 1754d9f..7563d55 100644
  {
  	/*
  	 * This must be the very last reference to @prev from this CPU. After
-@@ -5141,7 +5141,7 @@ static void zap_balance_callbacks(struct rq *rq)
+@@ -5145,7 +5145,7 @@ static void zap_balance_callbacks(struct rq *rq)
  	rq->balance_callback = found ? &balance_push_callback : NULL;
  }
  
@@ -37705,7 +37498,7 @@ index 1754d9f..7563d55 100644
  {
  	void (*func)(struct rq *rq);
  	struct balance_callback *next;
-@@ -5176,7 +5176,7 @@ struct balance_callback balance_push_callback = {
+@@ -5180,7 +5180,7 @@ struct balance_callback balance_push_callback = {
  	.func = balance_push,
  };
  
@@ -37714,7 +37507,7 @@ index 1754d9f..7563d55 100644
  __splice_balance_callbacks(struct rq *rq, bool split)
  {
  	struct balance_callback *head = rq->balance_callback;
-@@ -5250,7 +5250,7 @@ prepare_lock_switch(struct rq *rq, struct task_struct *next, struct rq_flags *rf
+@@ -5254,7 +5254,7 @@ prepare_lock_switch(struct rq *rq, struct task_struct *next, struct rq_flags *rf
  	__acquire(__rq_lockp(this_rq()));
  }
  
@@ -37723,7 +37516,7 @@ index 1754d9f..7563d55 100644
  	__releases(__rq_lockp(rq))
  {
  	/*
-@@ -5284,7 +5284,7 @@ static inline void kmap_local_sched_out(void)
+@@ -5288,7 +5288,7 @@ static inline void kmap_local_sched_out(void)
  #endif
  }
  
@@ -37732,7 +37525,7 @@ index 1754d9f..7563d55 100644
  {
  #ifdef CONFIG_KMAP_LOCAL
  	if (unlikely(current->kmap_ctrl.idx))
-@@ -5338,7 +5338,7 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
+@@ -5342,7 +5342,7 @@ prepare_task_switch(struct rq *rq, struct task_struct *prev,
   * past. 'prev == current' is still correct but we need to recalculate this_rq
   * because prev may have moved to another CPU.
   */
@@ -37741,7 +37534,7 @@ index 1754d9f..7563d55 100644
  	__releases(__rq_lockp(this_rq()))
  {
  	struct rq *rq = this_rq();
-@@ -6254,7 +6254,7 @@ pick_next_task(struct rq *rq, struct rq_flags *rf)
+@@ -6258,7 +6258,7 @@ pick_next_task(struct rq *rq, struct rq_flags *rf)
  	struct rq *rq_i;
  	bool need_sync = false;
  
@@ -37750,7 +37543,7 @@ index 1754d9f..7563d55 100644
  		return __pick_next_task(rq, rf);
  
  	cpu = cpu_of(rq);
-@@ -7802,7 +7802,7 @@ out_unlock:
+@@ -7816,7 +7816,7 @@ out_unlock:
  #if !defined(CONFIG_PREEMPTION) || defined(CONFIG_PREEMPT_DYNAMIC)
  int __sched __cond_resched(void)
  {
@@ -37759,109 +37552,8 @@ index 1754d9f..7563d55 100644
  		preempt_schedule_common();
  		return 1;
  	}
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index 06bddaa..faac7c2 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -381,9 +381,9 @@ void thread_group_cputime(struct task_struct *tsk, struct task_cputime *times)
-  * softirq as those do not count in task exec_runtime any more.
-  */
- static void irqtime_account_process_tick(struct task_struct *p, int user_tick,
--					 int ticks)
-+					 u64 cputime)
- {
--	u64 other, cputime = TICK_NSEC * ticks;
-+	u64 other;
- 
- 	/*
- 	 * When returning from idle, many ticks can get accounted at
-@@ -418,7 +418,7 @@ static void irqtime_account_process_tick(struct task_struct *p, int user_tick,
- 
- #else /* !CONFIG_IRQ_TIME_ACCOUNTING: */
- static inline void irqtime_account_process_tick(struct task_struct *p, int user_tick,
--						int nr_ticks) { }
-+						u64 cputime) { }
- #endif /* !CONFIG_IRQ_TIME_ACCOUNTING */
- 
- #if defined(CONFIG_NO_HZ_COMMON) && !defined(CONFIG_HAVE_VIRT_CPU_ACCOUNTING_IDLE)
-@@ -468,18 +468,38 @@ static void kcpustat_idle_start(struct kernel_cpustat *kc, u64 now)
- 	write_seqcount_end(&kc->idle_sleeptime_seq);
- }
- 
--void kcpustat_dyntick_stop(u64 now)
-+void kcpustat_dyntick_stop(u64 now, u64 tick_start)
- {
- 	struct kernel_cpustat *kc = kcpustat_this_cpu;
- 
- 	if (!vtime_generic_enabled_this_cpu()) {
- 		WARN_ON_ONCE(!kc->idle_dyntick);
-+		if (kc->idle_tick_period != tick_start) {
-+			kc->idle_tick_period = tick_start;
-+			kc->idle_tick_overlap = 0;
-+		}
-+		tick_start = max(tick_start, kc->idle_dyntick_entry);
-+		if (!WARN_ON_ONCE(now < tick_start))
-+			kc->idle_tick_overlap += now - tick_start;
- 		kcpustat_idle_stop(kc, now);
- 		kc->idle_dyntick = false;
- 		vtime_dyntick_stop();
- 	}
- }
- 
-+/*
-+ * The first tick after dyntick-idle covers a period that the dyntick-idle
-+ * accounting may already have accounted in part.
-+ */
-+static inline u64 kcpustat_tick_overlap(void)
-+{
-+	struct kernel_cpustat *kc = kcpustat_this_cpu;
-+	u64 overlap = kc->idle_tick_overlap;
-+
-+	kc->idle_tick_overlap = 0;
-+	return overlap;
-+}
-+
- void kcpustat_dyntick_start(u64 now)
- {
- 	struct kernel_cpustat *kc = kcpustat_this_cpu;
-@@ -487,6 +507,7 @@ void kcpustat_dyntick_start(u64 now)
- 	if (!vtime_generic_enabled_this_cpu()) {
- 		vtime_dyntick_start();
- 		kc->idle_dyntick = true;
-+		kc->idle_dyntick_entry = now;
- 		kcpustat_idle_start(kc, now);
- 	}
- }
-@@ -555,6 +576,11 @@ u64 kcpustat_field_iowait(int cpu)
- }
- EXPORT_SYMBOL_GPL(kcpustat_field_iowait);
- #else
-+static inline u64 kcpustat_tick_overlap(void)
-+{
-+	return 0;
-+}
-+
- static u64 kcpustat_field_dyntick(int cpu, enum cpu_usage_stat idx,
- 				  bool compute_delta, ktime_t now)
- {
-@@ -695,12 +721,13 @@ void account_process_tick(struct task_struct *p, int user_tick)
- 	if (kcpustat_idle_dyntick())
- 		return;
- 
-+	cputime = TICK_NSEC - kcpustat_tick_overlap();
-+
- 	if (irqtime_enabled()) {
--		irqtime_account_process_tick(p, user_tick, 1);
-+		irqtime_account_process_tick(p, user_tick, cputime);
- 		return;
- 	}
- 
--	cputime = TICK_NSEC;
- 	steal = steal_account_process_time(ULONG_MAX);
- 
- 	if (steal >= cputime)
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 913630c..6d01b4d 100644
+index 327d5f8..7b5ef13 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
 @@ -82,10 +82,19 @@ unsigned int sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_LOG;
@@ -37920,13 +37612,13 @@ index 913630c..6d01b4d 100644
 +
 +	if (sched_feat(RUN_TO_PARITY))
 +		slice = cfs_rq_min_slice(cfs_rq);
-+
+ 
+-	se->vprot = min_vruntime(se->vprot, vruntime + calc_delta_fair(slice, se));
 +	vprot = min_vruntime(se->vprot, vruntime + calc_delta_fair(slice, se));
 +
 +	if (sched_feat(PREEMPT_SHORT) && slice != se->slice)
 +		vprot = min_vruntime(vprot, ineligible_vruntime(cfs_rq));
- 
--	se->vprot = min_vruntime(se->vprot, vruntime + calc_delta_fair(slice, se));
++
 +	se->vprot = vprot;
  }
  
@@ -37948,22 +37640,7 @@ index 913630c..6d01b4d 100644
  
  	set_next_buddy(cfs_rq, pse);
  	return true;
-@@ -12128,6 +12145,14 @@ static void record_sg_llc_stats(struct lb_env *env,
- 	if (env->sd->child != rcu_dereference_all(per_cpu(sd_llc, env->dst_cpu)))
- 		return;
- 
-+	/*
-+	 * A redo repeats stats published on the first pass. Hotplug can
-+	 * still leave env->cpus partial, so util would not match capacity.
-+	 */
-+	if ((env->flags & LBF_ALL_PINNED) ||
-+	    !cpumask_subset(sched_group_span(group), env->cpus))
-+		return;
-+
- 	/*
- 	 * At this point we know this group spans a LLC domain.
- 	 * Record the statistic of this group in its corresponding
-@@ -13818,12 +13843,15 @@ redo:
+@@ -13826,12 +13843,15 @@ redo:
  		 * still unbalanced. ld_moved simply stays zero, so it is
  		 * correctly treated as an imbalance.
  		 */
@@ -37982,10 +37659,10 @@ index 913630c..6d01b4d 100644
  		 * cur_ld_moved - load moved in current iteration
  		 * ld_moved     - cumulative load moved across iterations
 diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 4c25fbe..efd96e9 100644
+index 8d805aa..9fd7e1b 100644
 --- a/kernel/sched/sched.h
 +++ b/kernel/sched/sched.h
-@@ -1481,12 +1481,12 @@ static inline struct cpumask *sched_group_span(struct sched_group *sg);
+@@ -1483,12 +1483,12 @@ static inline struct cpumask *sched_group_span(struct sched_group *sg);
  
  DECLARE_STATIC_KEY_FALSE(__sched_core_enabled);
  
@@ -38000,7 +37677,7 @@ index 4c25fbe..efd96e9 100644
  {
  	return !static_branch_unlikely(&__sched_core_enabled);
  }
-@@ -1495,7 +1495,7 @@ static inline bool sched_core_disabled(void)
+@@ -1497,7 +1497,7 @@ static inline bool sched_core_disabled(void)
   * Be careful with this function; not for general use. The return value isn't
   * stable unless you actually hold a relevant rq->__lock.
   */
@@ -38009,7 +37686,7 @@ index 4c25fbe..efd96e9 100644
  {
  	if (sched_core_enabled(rq))
  		return &rq->core->__lock;
-@@ -1503,7 +1503,7 @@ static inline raw_spinlock_t *rq_lockp(struct rq *rq)
+@@ -1505,7 +1505,7 @@ static inline raw_spinlock_t *rq_lockp(struct rq *rq)
  	return &rq->__lock;
  }
  
@@ -38018,7 +37695,7 @@ index 4c25fbe..efd96e9 100644
  	__returns_ctx_lock(rq_lockp(rq)) /* alias them */
  {
  	if (rq->core_enabled)
-@@ -1606,12 +1606,12 @@ static inline bool sched_core_disabled(void)
+@@ -1608,12 +1608,12 @@ static inline bool sched_core_disabled(void)
  	return true;
  }
  
@@ -38033,7 +37710,7 @@ index 4c25fbe..efd96e9 100644
  	__returns_ctx_lock(rq_lockp(rq)) /* alias them */
  {
  	return &rq->__lock;
-@@ -1671,33 +1671,33 @@ extern void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
+@@ -1673,33 +1673,33 @@ extern void raw_spin_rq_lock_nested(struct rq *rq, int subclass)
  extern bool raw_spin_rq_trylock(struct rq *rq)
  	__cond_acquires(true, __rq_lockp(rq));
  
@@ -38072,7 +37749,7 @@ index 4c25fbe..efd96e9 100644
  	__acquires(__rq_lockp(rq))
  {
  	unsigned long flags;
-@@ -1708,7 +1708,7 @@ static inline unsigned long _raw_spin_rq_lock_irqsave(struct rq *rq)
+@@ -1710,7 +1710,7 @@ static inline unsigned long _raw_spin_rq_lock_irqsave(struct rq *rq)
  	return flags;
  }
  
@@ -38081,7 +37758,7 @@ index 4c25fbe..efd96e9 100644
  	__releases(__rq_lockp(rq))
  {
  	raw_spin_rq_unlock(rq);
-@@ -3138,7 +3138,7 @@ static inline void attach_one_task(struct rq *rq, struct task_struct *p)
+@@ -3148,7 +3148,7 @@ static inline void attach_one_task(struct rq *rq, struct task_struct *p)
  	attach_task(rq, p);
  }
  
@@ -38090,63 +37767,6 @@ index 4c25fbe..efd96e9 100644
  # define SCHED_NR_MIGRATE_BREAK 8
  #else
  # define SCHED_NR_MIGRATE_BREAK 32
-diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index baa3ac9..6546e19 100644
---- a/kernel/time/tick-sched.c
-+++ b/kernel/time/tick-sched.c
-@@ -775,12 +775,18 @@ static ktime_t tick_forward_now(ktime_t expires, ktime_t now)
- 	return expires + TICK_NSEC;
- }
- 
-+static void tick_nohz_forward_last_tick(struct tick_sched *ts, ktime_t now)
-+{
-+	if (now >= ts->last_tick)
-+		ts->last_tick = tick_forward_now(ts->last_tick, now);
-+}
-+
- static void tick_nohz_restart(struct tick_sched *ts, ktime_t now)
- {
--	ktime_t expires = ts->last_tick;
-+	ktime_t expires;
- 
--	if (now >= expires)
--		expires = tick_forward_now(expires, now);
-+	tick_nohz_forward_last_tick(ts, now);
-+	expires = ts->last_tick;
- 
- 	if (tick_sched_flag_test(ts, TS_FLAG_HIGHRES)) {
- 		hrtimer_start(&ts->sched_timer,	expires, HRTIMER_MODE_ABS_PINNED_HARD);
-@@ -1341,6 +1347,12 @@ unsigned long tick_nohz_get_idle_calls_cpu(int cpu)
- 	return ts->idle_calls;
- }
- 
-+static void tick_nohz_dyntick_stop(struct tick_sched *ts, ktime_t now)
-+{
-+	tick_nohz_forward_last_tick(ts, now);
-+	kcpustat_dyntick_stop(now, ts->last_tick - TICK_NSEC);
-+}
-+
- void tick_nohz_idle_restart_tick(void)
- {
- 	struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
-@@ -1353,7 +1365,7 @@ void tick_nohz_idle_restart_tick(void)
- 		 * no tiny amount of idle time is accounted twice.
- 		 */
- 		ts->idle_entrytime = ktime_get();
--		kcpustat_dyntick_stop(ts->idle_entrytime);
-+		tick_nohz_dyntick_stop(ts, ts->idle_entrytime);
- 		tick_nohz_restart_sched_tick(ts, ts->idle_entrytime);
- 	}
- }
-@@ -1397,7 +1409,7 @@ void tick_nohz_idle_exit(void)
- 
- 	if (tick_sched_flag_test(ts, TS_FLAG_STOPPED)) {
- 		now = ktime_get();
--		kcpustat_dyntick_stop(now);
-+		tick_nohz_dyntick_stop(ts, now);
- 		tick_nohz_idle_update_tick(ts, now);
- 	}
- 
 diff --git a/mm/compaction.c b/mm/compaction.c
 index a049415..d9bb55c 100644
 --- a/mm/compaction.c
@@ -38196,7 +37816,7 @@ index 8714425..99f7297 100644
  int defrag_mode;
  
 diff --git a/mm/slub.c b/mm/slub.c
-index 544cff3..a0f0bdc 100644
+index 6bb75db..41a66fc 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
 @@ -422,6 +422,7 @@ struct node_barn {
@@ -38367,10 +37987,10 @@ index 88fd31d..1256a08 100644
  static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
  {
 diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 03b8052..b35bf30 100644
+index 3288f92..0a65737 100644
 --- a/net/bluetooth/hci_event.c
 +++ b/net/bluetooth/hci_event.c
-@@ -6476,6 +6476,13 @@ static void hci_le_adv_report_evt(struct hci_dev *hdev, void *data,
+@@ -6526,6 +6526,13 @@ static void hci_le_adv_report_evt(struct hci_dev *hdev, void *data,
  
  		hci_store_wake_reason(hdev, &info->bdaddr, info->bdaddr_type);
  
@@ -38484,10 +38104,10 @@ index 791e150..4f2c7bc 100644
  	.undo_cwnd = bpf_tcp_ca_undo_cwnd,
  	.sndbuf_expand = bpf_tcp_ca_sndbuf_expand,
 diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 87ef6d5..67e951b 100644
+index 73d5b7c..b2c5791 100644
 --- a/net/ipv4/tcp.c
 +++ b/net/ipv4/tcp.c
-@@ -3484,6 +3484,7 @@ int tcp_disconnect(struct sock *sk, int flags)
+@@ -3492,6 +3492,7 @@ int tcp_disconnect(struct sock *sk, int flags)
  	tp->rx_opt.dsack = 0;
  	tp->rx_opt.num_sacks = 0;
  	tp->rcv_ooopack = 0;
@@ -38495,7 +38115,7 @@ index 87ef6d5..67e951b 100644
  
  
  	/* Clean up fastopen related fields */
-@@ -4269,6 +4270,8 @@ void tcp_get_info(struct sock *sk, struct tcp_info *info)
+@@ -4277,6 +4278,8 @@ void tcp_get_info(struct sock *sk, struct tcp_info *info)
  		info->tcpi_options |= TCPI_OPT_ECN;
  	if (tp->ecn_flags & TCP_ECN_SEEN)
  		info->tcpi_options |= TCPI_OPT_ECN_SEEN;
@@ -41331,127 +40951,6 @@ index 66e4b6a..e187908 100644
  	echo "Installing System.map and config..."
  	mkdir -p "${builddir}"
  	cp System.map "${builddir}/System.map"
-diff --git a/security/apparmor/match.c b/security/apparmor/match.c
-index ca30a42..a3361d3 100644
---- a/security/apparmor/match.c
-+++ b/security/apparmor/match.c
-@@ -613,7 +613,7 @@ aa_state_t aa_dfa_match_until(const struct aa_dfa *dfa, aa_state_t start,
- 	u32 *next = NEXT_TABLE(dfa);
- 	u32 *check = CHECK_TABLE(dfa);
- 	u32 *accept = ACCEPT_TABLE(dfa);
--	aa_state_t state = start, pos;
-+	aa_state_t state = start;
- 
- 	if (state == DFA_NOMATCH)
- 		return DFA_NOMATCH;
-@@ -624,22 +624,18 @@ aa_state_t aa_dfa_match_until(const struct aa_dfa *dfa, aa_state_t start,
- 		u8 *equiv = EQUIV_TABLE(dfa);
- 		/* default is direct to next state */
- 		while (*str) {
--			pos = base_idx(base[state]) + equiv[(u8) *str++];
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			u8 c = equiv[(u8) *str++];
-+
-+			match_char(state, def, base, next, check, c);
- 			if (accept[state])
- 				break;
- 		}
- 	} else {
- 		/* default is direct to next state */
- 		while (*str) {
--			pos = base_idx(base[state]) + (u8) *str++;
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			u8 c = (u8) *str++;
-+
-+			match_char(state, def, base, next, check, c);
- 			if (accept[state])
- 				break;
- 		}
-@@ -674,7 +670,7 @@ aa_state_t aa_dfa_matchn_until(const struct aa_dfa *dfa, aa_state_t start,
- 	u32 *next = NEXT_TABLE(dfa);
- 	u32 *check = CHECK_TABLE(dfa);
- 	u32 *accept = ACCEPT_TABLE(dfa);
--	aa_state_t state = start, pos;
-+	aa_state_t state = start;
- 
- 	*retpos = NULL;
- 	if (state == DFA_NOMATCH)
-@@ -686,22 +682,18 @@ aa_state_t aa_dfa_matchn_until(const struct aa_dfa *dfa, aa_state_t start,
- 		u8 *equiv = EQUIV_TABLE(dfa);
- 		/* default is direct to next state */
- 		for (; n; n--) {
--			pos = base_idx(base[state]) + equiv[(u8) *str++];
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			u8 c = equiv[(u8) *str++];
-+
-+			match_char(state, def, base, next, check, c);
- 			if (accept[state])
- 				break;
- 		}
- 	} else {
- 		/* default is direct to next state */
- 		for (; n; n--) {
--			pos = base_idx(base[state]) + (u8) *str++;
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			u8 c = (u8) *str++;
-+
-+			match_char(state, def, base, next, check, c);
- 			if (accept[state])
- 				break;
- 		}
-@@ -750,7 +742,7 @@ static aa_state_t leftmatch_fb(const struct aa_dfa *dfa, aa_state_t start,
- 	u32 *base = BASE_TABLE(dfa);
- 	u32 *next = NEXT_TABLE(dfa);
- 	u32 *check = CHECK_TABLE(dfa);
--	aa_state_t state = start, pos;
-+	aa_state_t state = start;
- 
- 	AA_BUG(!dfa);
- 	AA_BUG(!str);
-@@ -768,13 +760,10 @@ static aa_state_t leftmatch_fb(const struct aa_dfa *dfa, aa_state_t start,
- 		/* default is direct to next state */
- 		while (*str) {
- 			unsigned int adjust;
-+			u8 c = equiv[(u8) *str++];
- 
- 			wb->history[wb->pos] = state;
--			pos = base_idx(base[state]) + equiv[(u8) *str++];
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			match_char(state, def, base, next, check, c);
- 			if (is_loop(wb, state, &adjust)) {
- 				state = aa_dfa_match(dfa, state, str);
- 				*count -= adjust;
-@@ -787,13 +776,10 @@ static aa_state_t leftmatch_fb(const struct aa_dfa *dfa, aa_state_t start,
- 		/* default is direct to next state */
- 		while (*str) {
- 			unsigned int adjust;
-+			u8 c = (u8) *str++;
- 
- 			wb->history[wb->pos] = state;
--			pos = base_idx(base[state]) + (u8) *str++;
--			if (check[pos] == state)
--				state = next[pos];
--			else
--				state = def[state];
-+			match_char(state, def, base, next, check, c);
- 			if (is_loop(wb, state, &adjust)) {
- 				state = aa_dfa_match(dfa, state, str);
- 				*count -= adjust;
 diff --git a/security/integrity/platform_certs/keyring_handler.h b/security/integrity/platform_certs/keyring_handler.h
 index f92895c..a355f44 100644
 --- a/security/integrity/platform_certs/keyring_handler.h
@@ -41535,10 +41034,10 @@ index c0d6948..b4096d4 100644
  		return false;
  	}
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 49c4d01..17a8a41 100644
+index 350003d..1405179 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3421,6 +3421,11 @@ static void cs35l41_fixup_spi_four(struct hda_codec *codec, const struct hda_fix
+@@ -3429,6 +3429,11 @@ static void cs35l41_fixup_spi_four(struct hda_codec *codec, const struct hda_fix
  	comp_generic_fixup(codec, action, "spi", "CSC3551", "-%s:00-cs35l41-hda.%d", 4);
  }
  
@@ -41550,7 +41049,7 @@ index 49c4d01..17a8a41 100644
  static void alc287_fixup_legion_16achg6_speakers(struct hda_codec *cdc, const struct hda_fixup *fix,
  						 int action)
  {
-@@ -4264,6 +4269,7 @@ enum {
+@@ -4295,6 +4300,7 @@ enum {
  	ALC298_FIXUP_SAMSUNG_AMP,
  	ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS,
  	ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS,
@@ -41558,7 +41057,7 @@ index 49c4d01..17a8a41 100644
  	ALC298_FIXUP_LG_GRAM_STYLE_14,
  	ALC298_FIXUP_RAZER_BLADE16_2025_PINS,
  	ALC298_FIXUP_RAZER_BLADE16_2025,
-@@ -6146,6 +6152,10 @@ static const struct hda_fixup alc269_fixups[] = {
+@@ -6190,6 +6196,10 @@ static const struct hda_fixup alc269_fixups[] = {
  		.type = HDA_FIXUP_FUNC,
  		.v.func = alc298_fixup_lg_gram_style_14
  	},
@@ -41569,7 +41068,7 @@ index 49c4d01..17a8a41 100644
  	[ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET] = {
  		.type = HDA_FIXUP_VERBS,
  		.v.verbs = (const struct hda_verb[]) {
-@@ -8101,6 +8111,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -8157,6 +8167,11 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
  	SND_PCI_QUIRK(0x144d, 0xc876, "Samsung 730QED (NP730QED-KA2US)", ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
  	SND_PCI_QUIRK(0x144d, 0xca03, "Samsung Galaxy Book2 Pro 360 (NP930QED)", ALC298_FIXUP_SAMSUNG_AMP),
  	SND_PCI_QUIRK(0x144d, 0xca06, "Samsung Galaxy Book3 360 (NP730QFG)", ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET),
@@ -41581,7 +41080,7 @@ index 49c4d01..17a8a41 100644
  	SND_PCI_QUIRK(0x144d, 0xc868, "Samsung Galaxy Book2 Pro (NP930XED)", ALC298_FIXUP_SAMSUNG_AMP),
  	SND_PCI_QUIRK(0x144d, 0xc870, "Samsung Galaxy Book2 Pro (NP950XED)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
  	SND_PCI_QUIRK(0x144d, 0xc872, "Samsung Galaxy Book2 Pro (NP950XEE)", ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS),
-@@ -8701,6 +8716,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
+@@ -8757,6 +8772,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
  	{.id = ALC298_FIXUP_SAMSUNG_AMP, .name = "alc298-samsung-amp"},
  	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS, .name = "alc298-samsung-amp-v2-2-amps"},
  	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS, .name = "alc298-samsung-amp-v2-4-amps"},

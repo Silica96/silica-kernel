@@ -1,17 +1,15 @@
-## CachyOS Linux 7.3.5-2
+## CachyOS Linux 7.3.6-1
 
-Based on Linux 7.3.5
-Previous release: `cachyos-7.3.5-1`
+Based on Linux 7.3.6
+Previous release: `cachyos-7.3.5-2`
 
-### Changes since `cachyos-7.3.5-1`
+### Changes since `cachyos-7.3.5-2`
 
-- Updated branch: **7.3/cachy**
-    - `+` kbuild: rust: support stabilized flag `-Cprofile-sample-use` for Rust >= 1.100
+- Rebased to upstream: `7.3.5` → `7.3.6`
+- Updated branch: **7.3/fixes**
+    - `+` HID: playstation: Ignore DualSense Bluetooth audio reports as input
 
 ### Applied branches
-
-#### 7.3/cachy
-- `fbd9d3c8f13c` kbuild: rust: support stabilized flag `-Cprofile-sample-use` for Rust >= 1.100
 
 #### 7.3/zram
 - `e823a1bcdce3` zram: fix idle age_sec underflow in idle_store()
@@ -145,6 +143,7 @@ Previous release: `cachyos-7.3.5-1`
 - `1236df3b85d0` PCI: vmd: Flush DMA writes before handling MSI on Meteor Lake
 - `5f35c1ed9a38` PCI: vmd: Flush DMA writes before handling MSI on Arrow Lake
 - `3f1d6b739afe` wifi: brcmfmac: map msgbuf RX packet IDs bidirectional
+- `5aec130e7f6b` HID: playstation: Ignore DualSense Bluetooth audio reports as input
 
 #### 7.3/cachy
 - `e4cd5992b0de` add sysctl to allow disabling unprivileged CLONE_NEWUSER
@@ -197,6 +196,7 @@ Previous release: `cachyos-7.3.5-1`
 - `962bee17a9d7` rust: Allow BTF generation with Rust + LTO
 - `f2bd287ff236` fixup! drivers/pci: Add ACS override support
 - `852ded6b31ba` Revert "7.2-rc1-poc-selector-v2.6.3"
+- `fbd9d3c8f13c` kbuild: rust: support stabilized flag `-Cprofile-sample-use` for Rust >= 1.100
 
 #### 7.3/bbr3
 - `5b121d2f9e4f` tcp/bbr3: add BBRv3 congestion control
