@@ -1,15 +1,15 @@
-## CachyOS Linux 7.3.6-1
+## CachyOS Linux 7.3.6-3
 
 Based on Linux 7.3.6
-Previous release: `cachyos-7.3.5-2`
+Previous release: `cachyos-7.3.6-2`
 
-### Changes since `cachyos-7.3.5-2`
+### Changes since `cachyos-7.3.6-2`
 
-- Rebased to upstream: `7.3.5` → `7.3.6`
-- Updated branch: **7.3/fixes**
-    - `+` HID: playstation: Ignore DualSense Bluetooth audio reports as input
 
 ### Applied branches
+
+#### 7.3/fixes
+- `d22a7de9ad50` kbuild: AutoFDO: Disable Profi (-fno-sample-profile-use-profi)
 
 #### 7.3/zram
 - `e823a1bcdce3` zram: fix idle age_sec underflow in idle_store()
